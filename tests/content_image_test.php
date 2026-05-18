@@ -43,15 +43,9 @@ final class content_image_test extends \advanced_testcase {
         $draftfile = $this->create_draft_file_from_path($CFG->dirroot . '/privacy/tests/fixtures/logo.png');
         $storedfile = $content->import_file($draftfile);
 
-        if (!($storedfile instanceof \stored_file)) {
-            throw new \Exception('Expected imported file to be a stored_file instance.');
-        }
-        if ($storedfile->get_filename() !== 'logo.png') {
-            throw new \Exception('Expected uploaded file name to be preserved.');
-        }
-        if (!$storedfile->is_valid_image()) {
-            throw new \Exception('Imported file should be a valid web image.');
-        }
+        $this->assertInstanceOf(\stored_file::class, $storedfile);
+        $this->assertEquals('logo.png', $storedfile->get_filename());
+        $this->assertTrue($storedfile->is_valid_image());
     }
 
     /**
@@ -70,14 +64,9 @@ final class content_image_test extends \advanced_testcase {
 
         $draftfile = $this->create_draft_file_from_path($CFG->dirroot . '/privacy/tests/fixtures/provider_a.php');
 
-        try {
-            $content->import_file($draftfile);
-            throw new \Exception('Expected moodle_exception was not thrown.');
-        } catch (\moodle_exception $e) {
-            if ($e->errorcode !== 'notvalidimage') {
-                throw new \Exception('Unexpected moodle_exception errorcode: ' . $e->errorcode);
-            }
-        }
+        $this->expectException(\moodle_exception::class);
+        $this->expectExceptionMessage(get_string('notvalidimage', 'contenttype_image'));
+        $content->import_file($draftfile);
     }
 
     /**

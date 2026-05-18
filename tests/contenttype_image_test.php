@@ -37,22 +37,12 @@ final class contenttype_image_test extends \advanced_testcase {
 
         $contenttype = new contenttype(\context_system::instance());
 
-        if (!$contenttype->is_feature_supported(contenttype::CAN_UPLOAD)) {
-            throw new \Exception('Image content type must support upload.');
-        }
-        if (!$contenttype->is_feature_supported(contenttype::CAN_DOWNLOAD)) {
-            throw new \Exception('Image content type must support download.');
-        }
-        if (!$contenttype->is_feature_supported(contenttype::CAN_COPY)) {
-            throw new \Exception('Image content type must support copy.');
-        }
-        if ($contenttype->is_feature_supported(contenttype::CAN_EDIT)) {
-            throw new \Exception('Image content type must not support editor content creation.');
-        }
+        $this->assertTrue($contenttype->is_feature_supported(\core_contentbank\contenttype::CAN_UPLOAD));
+        $this->assertTrue($contenttype->is_feature_supported(\core_contentbank\contenttype::CAN_DOWNLOAD));
+        $this->assertTrue($contenttype->is_feature_supported(\core_contentbank\contenttype::CAN_COPY));
+        $this->assertFalse($contenttype->is_feature_supported(\core_contentbank\contenttype::CAN_EDIT));
 
-        if ($contenttype->get_manageable_extensions() !== ['.gif', '.jpg', '.jpeg', '.png']) {
-            throw new \Exception('Unexpected manageable extensions returned.');
-        }
+        $this->assertEquals(['.gif', '.jpg', '.jpeg', '.png'], $contenttype->get_manageable_extensions());
     }
 
     /**
@@ -68,9 +58,7 @@ final class contenttype_image_test extends \advanced_testcase {
 
         // Admins can upload.
         $this->setAdminUser();
-        if (!$systemtype->can_upload()) {
-            throw new \Exception('Admin should be able to upload images.');
-        }
+        $this->assertTrue($systemtype->can_upload());
 
         // Teacher can upload in the course but not at system level.
         $course = $this->getDataGenerator()->create_course();
@@ -78,21 +66,13 @@ final class contenttype_image_test extends \advanced_testcase {
         $coursecontext = \context_course::instance($course->id);
         $coursetype = new contenttype($coursecontext);
         $this->setUser($teacher);
-        if (!$coursetype->can_upload()) {
-            throw new \Exception('Teacher should be able to upload images in course context.');
-        }
-        if ($systemtype->can_upload()) {
-            throw new \Exception('Teacher should not be able to upload images at system context.');
-        }
+        $this->assertTrue($coursetype->can_upload());
+        $this->assertFalse($systemtype->can_upload());
 
         // Regular users cannot upload.
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
-        if ($coursetype->can_upload()) {
-            throw new \Exception('Regular users should not upload images in course context.');
-        }
-        if ($systemtype->can_upload()) {
-            throw new \Exception('Regular users should not upload images in system context.');
-        }
+        $this->assertFalse($coursetype->can_upload());
+        $this->assertFalse($systemtype->can_upload());
     }
 }
