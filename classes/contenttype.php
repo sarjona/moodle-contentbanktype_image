@@ -56,9 +56,6 @@ class contenttype extends \core_contentbank\contenttype {
      * @return string
      */
     public function get_view_content(\core_contentbank\content $content): string {
-        $event = \core\event\contentbank_content_viewed::create_from_record($content->get_content());
-        $event->trigger();
-
         $fileurl = $content->get_file_url();
         if (empty($fileurl)) {
             return '';
