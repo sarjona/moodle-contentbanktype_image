@@ -30,7 +30,7 @@
       "step": "installMoodlePlugin",
       "pluginType": "contenttype",
       "pluginName": "image",
-      "url": "https://github.com/erseco/moodle-contentbanktype_image/archive/refs/heads/main.zip"
+      "url": "https://github.com/sarjona/moodle-contentbanktype_image/archive/refs/heads/main.zip"
     },
     {
       "step": "createCategory",
