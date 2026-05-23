@@ -4,6 +4,21 @@ This repository contains a prototype Moodle content bank plugin for Moodle. It w
 
 The plugin introduces a new content type to the Moodle content bank, specifically designed to help learning designers and teachers centralise, manage, and reuse course imagery efficiently.
 
+## 🎮 Try in Moodle Playground
+
+Click the badge below to open the `main` branch instantly in Moodle Playground
+with the plugin pre-installed, an "Image Demo" course already created, and a
+sample `logo.png` uploaded into the system content bank so you can preview
+the image content type right away. Every pull request automatically generates
+a playground preview link appended to the PR description, so reviewers can
+test the changes in a live Moodle instance without any local setup.
+
+<a href="https://moodle-playground.com/?blueprint-url=https://raw.githubusercontent.com/erseco/moodle-contentbanktype_image/refs/heads/main/blueprint.json" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/ateeducacion/action-moodle-playground-pr-preview/refs/heads/main/assets/playground-preview-button.svg" alt="Preview in Moodle Playground" width="200"></a>
+
+The PR preview links are produced by the
+<a href="https://github.com/ateeducacion/action-moodle-playground-pr-preview" target="_blank" rel="noopener">ateeducacion/action-moodle-playground-pr-preview</a>
+GitHub Action, configured via `blueprint.json` at the repository root.
+
 ## 🚀 Purpose
 
 In standard Moodle workflows, managing course images can sometimes lead to duplication or scattered files. This plugin utilises the Moodle content bank API to create a dedicated repository for visual assets within a course context.
